@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
@@ -6,12 +7,16 @@ from selenium.webdriver.support import expected_conditions as EC
 import sys
 
 class Robot(object):
-    def __init__(self, path="C:\\Users\\joang\\OneDrive\\Documentos\\Desarrollo\\Python\\SofomJage\\geckodriver.exe"):
+    def __init__(self, path="/usr/bin/chromedriver"):
         self.path = path
         self.targets = []
         self.driver = None
     def createBrowser(self):
-        self.driver = webdriver.Firefox(executable_path = self.path)
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        self.driver = webdriver.Chrome(executable_path = self.path,options=chrome_options)
     def close(self):
         self.driver.quit()
 
@@ -32,3 +37,4 @@ robot.driver.find_element_by_id("sp_formfield_u_contacto_estrecho").click()
 robot.driver.find_element_by_id("sp_formfield_u_sin_situacion_alto_riesgo").click()
 robot.driver.find_element_by_xpath("/html/body/div[1]/section/main/div[1]/div/sp-page-row/div/div/span/div/div/div[1]/div[2]/div/div[1]/div[3]/button").click()
 robot.close()
+print('Daily Follow Up Concluido')
